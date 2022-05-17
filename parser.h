@@ -4,8 +4,11 @@
 #include "TimepointFormat.h"
 #include <regex>
 #include "cpp11format.h"
+#include "stringUtils.h"
+
 
 namespace SubShift {
+using namespace StringUtils;
 
 class Parser {
 public:
@@ -17,34 +20,17 @@ public:
         std::regex rgx("([0-9:,]+) --> ([0-9:,]+)");
         std::smatch matches;
         if (std::regex_search(line, matches, rgx)
-            && matches.size() == 2)
+            && matches.size() == 3) // Matches == 3, because the first one is matching all
         {
-            startAndEndTime = std::pair<Timepoint, Timepoint>(Timepoint(matches[0]), Timepoint(matches[1]));
+            startAndEndTime = std::pair<Timepoint, Timepoint>(Timepoint(matches[1]), Timepoint(matches[2]));
             return true;
         }
+
         return false;
     }
 
-    static inline std::string intToPaddedString(int value, const size_t num, const char paddingChar = '0') {
-        return paddedTo(std::to_string(value), num, paddingChar);
-    }
-    
-    static inline std::string paddedTo(const std::string &str, const size_t num, const char paddingChar = ' ')
-    {
-        auto ret = str;
-        if(num > str.size())
-            ret.insert(0, num - str.size(), paddingChar);
-    }
-
     static std::string getTimePointsString(std::pair<Timepoint, Timepoint>& startAndEndTime) {
-        return string_format("{}:{}:{},{} --> {}:{}:{},{}", intToPaddedString(startAndEndTime.first.H, 2),
-                                                          intToPaddedString(startAndEndTime.first.M, 2),
-                                                          intToPaddedString(startAndEndTime.first.S, 2),
-                                                          intToPaddedString(startAndEndTime.first.MS, 3),
-                                                          intToPaddedString(startAndEndTime.second.H, 2),
-                                                          intToPaddedString(startAndEndTime.second.M, 2),
-                                                          intToPaddedString(startAndEndTime.second.S, 2),
-                                                          intToPaddedString(startAndEndTime.second.MS, 3));  
+        return string_format("%s --> %s", startAndEndTime.first.toString().c_str(), startAndEndTime.second.toString().c_str());  
     }
 
 };

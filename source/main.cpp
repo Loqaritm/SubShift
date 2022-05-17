@@ -1,5 +1,5 @@
 #include <iostream>
-#include "CLI11.hpp"
+#include "CLI11/CLI11.hpp"
 #include <string>
 #include "TimepointFormat.h"
 #include <fstream>

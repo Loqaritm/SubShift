@@ -63,7 +63,7 @@ int main(int argc, char** argv) {
             }
             outputLine = SubShift::Parser::getTimePointsString(parsedStartAndEndTimes);
 
-            LOG << "Original line: " << line << "\nModified line: " << outputLine;
+            LOG << "Original line: " << line << "\nModified line: " << outputLine << "\n";
         }
 
         // TODO: Test if this won't add unnecessary endlines

@@ -6,28 +6,17 @@
 #include "parser.h"
 #include "logger.h"
 
-// void runTests() {
-//     const std::string testValue = "1:22:04:333";
-
-//     SubShift::Timepoint testPoint(testValue);
-//     std::cout << testPoint.H << " "
-//                 << testPoint.M << " "
-//                 << testPoint.S << " "
-//                 << testPoint.MS << std::endl;
-// }
-
-
 int main(int argc, char** argv) {
-    CLI::App app{"SubShift is a simple tool to shift .srt subtitle files in specific points."};
+    CLI::App app{"SubShift is a simple tool to shift .srt subtitle files from specific time points on."};
 
     std::string filename = "default";
-    app.add_option("-i,--input", filename, "A help string");
+    app.add_option("-i,--input", filename, "Input file (.srt)");
 
     std::string output = "default";
-    app.add_option("-o,--output", output, "Output file");
+    app.add_option("-o,--output", output, "Output file (.srt)");
 
     std::string startPointString = "00:00:00:000";
-    app.add_option("-b,--begin", startPointString, "Starting point from which to begin the delay. Format: 0:04:20:000");
+    app.add_option("-b,--begin", startPointString, "Starting time point from which to begin the delay. Format: 0:04:20:000");
 
     // TODO: Add option to shift by a timestamp
     // TODO: Add support for format +10s -10s and so on
@@ -35,7 +24,7 @@ int main(int argc, char** argv) {
     app.add_option("-s,--shift-by-seconds", shiftBySeconds, "Shift by n seconds forward");
 
     bool verbose = false;
-    app.add_flag("-v,--verbose", verbose, "Get more debug output");
+    app.add_flag("-v,--verbose", verbose, "Log debug info to output");
 
     CLI11_PARSE(app, argc, argv);
 
